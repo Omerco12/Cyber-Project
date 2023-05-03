@@ -1,11 +1,14 @@
 import cv2
-from time import sleep
-from PIL import Image
 from keras.models import load_model
 import numpy as np
+import json
 
 
 def main_app(name):
+    labels = open('class_labels.json')
+    labels = json.load(labels)
+    id = labels[name]
+    print(id)
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     recognizer = load_model('model.h5')
     cap = cv2.VideoCapture(0)
@@ -24,23 +27,23 @@ def main_app(name):
             face = cv2.cvtColor(face, cv2.COLOR_GRAY2RGB)  # Convert grayscale face to RGB
             face = np.expand_dims(face, axis=0)
             face = face / 255.0
-            id, confidence = recognizer.predict(face)[0]
-            print(confidence)
+            prediction = recognizer.predict(face)[0]
+            confidence = np.max(prediction)
+            predicted_id = np.argmax(prediction)
             confidence = 100 - int(confidence)
-            print(confidence)
-            if confidence > 99.9:
+            if confidence > 80:
                 # if u want to print confidence level
                 # confidence = 100 - int(confidence)
-                text = name.upper()
-                font = cv2.FONT_HERSHEY_PLAIN
-                frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                frame = cv2.putText(frame, text, (x, y - 4), font, 1, (0, 255, 0), 1, cv2.LINE_AA)
+                if predicted_id == id:
+                    font = cv2.FONT_HERSHEY_PLAIN
+                    frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                    frame = cv2.putText(frame, name, (x, y - 4), font, 1, (0, 255, 0), 1, cv2.LINE_AA)
 
-            else:
-                text = "UnknownFace"
-                font = cv2.FONT_HERSHEY_PLAIN
-                frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
-                frame = cv2.putText(frame, text, (x, y - 4), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
+                else:
+                    text = "UnknownFace"
+                    font = cv2.FONT_HERSHEY_PLAIN
+                    frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+                    frame = cv2.putText(frame, text, (x, y - 4), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
 
         cv2.imshow("image", frame)
 
@@ -49,3 +52,5 @@ def main_app(name):
 
     cap.release()
     cv2.destroyAllWindows()
+
+
