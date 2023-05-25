@@ -9,7 +9,6 @@ def start_capture(name):
     num_of_images = 0
     detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
     try:
-        # os.makedirs(path)
         train_path = "./dataset/train/" + name + "/"
         photo_path = "./dataset/photos/" + name + "/"
         test_path = "./dataset/test/" + name + "/"
