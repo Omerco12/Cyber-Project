@@ -9,6 +9,8 @@ augmentor = alb.Compose([alb.HorizontalFlip(p=0.5),
                          alb.VerticalFlip(p=0.5)]
                         )
 data_dirs = ["dataset/train", "dataset/test"]
+
+
 def augment(name):
     for data_dir in ['train', 'test']:
         for subdir in os.listdir(os.path.join('dataset', data_dir)):
