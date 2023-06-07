@@ -16,6 +16,7 @@ from tensorflow.keras.applications.vgg16 import VGG16
 
 
 def train_classifier():
+    # train with the gpu instead of the cpu
     gpus = tf.config.experimental.list_physical_devices('GPU')
     for gpu in gpus:
         tf.config.experimental.set_memory_growth(gpu, True)
@@ -91,7 +92,7 @@ def train_classifier():
     # Compile and fit your model
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-    epochs = 50
+    epochs = 15
 
     model_checkpoint = ModelCheckpoint(
         filepath='model.h5',
@@ -106,6 +107,7 @@ def train_classifier():
         patience=3,
         verbose=1,
     )
+
     history = model.fit(train_data_generator,
                         steps_per_epoch=len(train_data_generator),
                         epochs=epochs,

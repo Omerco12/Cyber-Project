@@ -60,7 +60,7 @@ class StartPage(tk.Frame):
         img = tk.Label(self, image=render)
         img.image = render
         img.grid(row=0, column=1, rowspan=4, sticky="nsew")
-        label = tk.Label(self, text="        Home Page        ", font=self.controller.title_font, fg="#263942")
+        label = tk.Label(self, text="Face Recognizer", font=self.controller.title_font, fg="#263942")
         label.grid(row=0, sticky="ew")
         button1 = tk.Button(self, text="   Add a User  ", fg="#ffffff", bg="#263942",
                             command=lambda: self.controller.show_frame("PageOne"))
@@ -154,8 +154,8 @@ class PageThree(tk.Frame):
         self.controller = controller
         self.numimglabel = tk.Label(self, text="Number of images captured = 0", font='Helvetica 12 bold', fg="#263942")
         self.numimglabel.grid(row=0, column=0, columnspan=2, sticky="ew", pady=10)
-        self.capturebutton = tk.Button(self, text="Capture Data Set", fg="#ffffff", bg="#263942", command=self.capimg)
-        self.trainbutton = tk.Button(self, text="Train The Model", fg="#ffffff", bg="#263942", command=self.trainmodel)
+        self.capturebutton = tk.Button(self, text="Capture images", fg="#ffffff", bg="#263942", command=self.capimg)
+        self.trainbutton = tk.Button(self, text="Train", fg="#ffffff", bg="#263942", command=self.trainmodel)
         self.addperson = tk.Button(self, text="Add a person", fg="#ffffff", bg="#263942",
                                    command=lambda: self.controller.show_frame("PageOne"))
         self.capturebutton.grid(row=1, column=0, ipadx=5, ipady=4, padx=10, pady=20)
